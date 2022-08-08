@@ -142,11 +142,15 @@ class Rule
     public function getConditions()
     {
         $conditions = array();
-        
+
         foreach ($this->attributes->conditions as $condition) {
-            $conditions[] = new Condition($condition);
+            if ('/config/localtime' !== $condition->address) {
+                $conditions[] = new Condition($condition);
+            } else {
+                $conditions[] = new ConfigLocaltimeCondition($condition);
+            }
         }
-        
+
         return $conditions;
     }
 
